@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FloatTask</string>
+    <string name="nav_dashboard">Today</string>
+    <string name="nav_tasks">Tasks</string>
+    <string name="nav_overlay">Float</string>
+    <string name="nav_history">History</string>
+    <string name="overlay_permission_title">Display Over Other Apps</string>
+    <string name="overlay_permission_message">FloatTask needs permission to display a floating bubble and mini task panel above other apps so you can view, check off, and add tasks without leaving what you are doing.</string>
+    <string name="overlay_permission_grant">Open Settings</string>
+    <string name="overlay_permission_cancel">Not Now</string>
+    <string name="notification_permission_title">Stay on Top of Reminders</string>
+    <string name="notification_permission_message">Allow notifications so FloatTask can show the persistent floating widget control and alert you for daily and upcoming task reminders.</string>
+    <string name="overlay_channel_name">Floating Widget Service</string>
+    <string name="overlay_channel_desc">Persistent notification while the FloatTask floating overlay is active</string>
+    <string name="reminder_channel_name">Task Reminders</string>
+    <string name="reminder_channel_desc">Scheduled task due reminders and daily productivity nudges</string>
+</resources>

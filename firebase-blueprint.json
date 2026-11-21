@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the owner." },
+        "displayName": { "type": "string", "description": "User display name." },
+        "email": { "type": "string", "description": "Optional user email address." },
+        "photoUrl": { "type": "string", "description": "Optional profile avatar URL." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "displayName", "createdAt", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "User-defined task category label and color.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "name": { "type": "string", "description": "Category display name (1-40 chars)." },
+        "color": { "type": "integer", "description": "ARGB color integer." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "name", "color", "createdAt", "updatedAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "User to-do item with optional due schedule, recurrence, and embedded subtasks.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "title": { "type": "string", "description": "Task title (1-200 chars)." },
+        "description": { "type": "string", "description": "Task notes (0-2000 chars)." },
+        "categoryId": { "type": "string", "description": "Optional Category document ID." },
+        "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "URGENT"], "description": "Task priority level." },
+        "dueDate": { "type": "integer", "description": "Optional due date epoch millis." },
+        "dueTime": { "type": "string", "description": "Optional due time formatted HH:mm." },
+        "completed": { "type": "boolean", "description": "Whether the task is completed." },
+        "completedAt": { "type": "integer", "description": "Optional completion timestamp epoch millis." },
+        "recurring": { "type": "boolean", "description": "Whether the task repeats." },
+        "recurrencePattern": { "type": "string", "enum": ["NONE", "DAILY", "WEEKLY", "MONTHLY"], "description": "Recurrence interval." },
+        "subtasks": { "type": "array", "description": "Bounded checklist items (max 30)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "title", "description", "priority", "completed", "recurring", "recurrencePattern", "createdAt", "updatedAt"]
+    },
+    "CompletionHistoryEntry": {
+      "title": "CompletionHistoryEntry",
+      "description": "Chronological log entry created when a user completes a task.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "taskId": { "type": "string", "description": "Completed task document ID." },
+        "taskTitle": { "type": "string", "description": "Snapshot of task title at completion." },
+        "categoryName": { "type": "string", "description": "Optional category name." },
+        "categoryColor": { "type": "integer", "description": "Optional category color ARGB integer." },
+        "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "URGENT"], "description": "Task priority." },
+        "completedAtMillis": { "type": "integer", "description": "Completion epoch millis." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp (FieldValue.serverTimestamp())." }
+      },
+      "required": ["userId", "taskId", "taskTitle", "priority", "completedAtMillis", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile document isolated to the signed-in user."
+    },
+    "/users/{userId}/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "User-owned task categories."
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/Task" },
+      "description": "User-owned tasks synced in real time across devices."
+    },
+    "/users/{userId}/history/{historyId}": {
+      "schema": { "$ref": "#/entities/CompletionHistoryEntry" },
+      "description": "User-owned task completion history log."
+    }
+  }
+}

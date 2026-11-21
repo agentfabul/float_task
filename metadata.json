@@ -1,0 +1,6 @@
+{
+  "name": "FloatTask",
+  "description": "Offline-first floating to-do list and productivity manager with an interactive system overlay widget.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
